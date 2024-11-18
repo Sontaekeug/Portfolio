@@ -6,24 +6,24 @@ Python을 활용하여 개발한 6개의 AI 기반 프로그램들입니다. 종
 ## 폴더 별 프로그램
 1. **반려동물 탐지 프로그램 (Pet Detection Program)**  
    사진 속 개와 고양이를 탐지하고 분류하는 프로그램입니다.
-   [더 알아보기](./(AI) 1. PetDetection/README.md)
+   [더 알아보기](../(AI) 1. PetDetection/README.md)
 
 2. **감정 분석 프로그램 (Emotional Analysis Program)**  
    한글 텍스트의 감정을 긍정, 부정, 중립으로 분석합니다.  
-   [더 알아보기](./(AI) 2. EmotionalAnalysisProgram/README.md)
+   [더 알아보기](../(AI) 2. EmotionalAnalysisProgram/README.md)
 
 3. **주식 예측 앱 (Stock Prediction App)**  
    한국 주요 주식 종목의 과거 데이터를 기반으로 주가를 예측하는 프로그램입니다.  
-   [더 알아보기](./(AI) 3. StockPredictionApp/README.md)
+   [더 알아보기](../(AI) 3. StockPredictionApp/README.md)
 
 4. **테트리스 자동화 에이전트 (Tetris Automation Agent)**  
    강화 학습 기반으로 테트리스를 자동으로 플레이하는 AI 프로그램입니다.  
-   [더 알아보기](./(AI) 4. TetrisAutomationAgent/README.md)
+   [더 알아보기](../(AI) 4. TetrisAutomationAgent/README.md)
 
 5. **텍스트 요약기 (Text Summarizer)**  
    긴 텍스트를 요약하여 주요 내용을 간단히 제공하는 프로그램입니다.  
-   [더 알아보기](./(AI) 5. TextSummarizer/README.md)
+   [더 알아보기](../(AI) 5. TextSummarizer/README.md)
 
 6. **음성 변환기 (Text-to-Speech Converter)**  
    음성을 텍스트로 변환하거나, 텍스트를 음성으로 변환할 수 있는 프로그램입니다.  
-   [더 알아보기](./(AI) 6. TexttoSpeechConverterh/README.md)
+   [더 알아보기](../(AI) 6. TexttoSpeechConverterh/README.md)
