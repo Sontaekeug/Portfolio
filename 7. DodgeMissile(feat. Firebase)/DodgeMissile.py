@@ -12,11 +12,11 @@ import requests
 
 # Firebase Admin SDK 초기화
 # 서비스 계정 키 파일 경로 지정
-cred = credentials.Certificate(r"C:\Users\Adle\Desktop\DodgeMissile\dodgemissilerank-firebase-adminsdk-2wtxk-248dafa4e3.json")
+cred = credentials.Certificate(r"서비스 계정키 파일 경로.json")
 
 # Firebase 프로젝트 URL 지정 (수정)
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://dodgemissilerank-default-rtdb.firebaseio.com'  # URL 수정
+    'databaseURL': 'FireBase 프로젝트 URL'  # URL 수정
 })
 
 # 초기화
@@ -74,8 +74,8 @@ def create_user(email, password):
     print('Successfully created new user:', user.uid)
 
 def login_user(email, password):
-    api_key = 'AIzaSyBtfqepUp9zMcTuPGdebQy8KQ2bvTVed6k'
-    url = f'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}'
+    api_key = 'FireBase api key'
+    url = f'Firebase api key 접속 URL'
     payload = {
         'email': email,
         'password': password,
