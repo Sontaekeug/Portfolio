@@ -18,17 +18,17 @@ from sklearn.metrics import precision_recall_fscore_support
 class EmotionAnalysisModel(nn.Module):
     def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
         super().__init__()
-        # 임베딩 레이어
+        # 임베딩 레이어 설정
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        self.embedding_dropout = nn.Dropout(0.2)  # 드롭아웃 비율 감소
+        self.embedding_dropout = nn.Dropout(0.2)  # 드롭아웃 값 설정
         
-        # CNN 레이어
+        # CNN 레이어 설정
         self.conv_layers = nn.ModuleList([
             nn.Conv1d(embedding_dim, hidden_dim, kernel_size=k, padding=k//2)
             for k in [3, 4, 5]
         ])
         
-        # LSTM 레이어
+        # LSTM 레이어 설정
         self.lstm = nn.LSTM(
             hidden_dim * 3,  # 3개의 컨볼루션 결과를 연결
             hidden_dim,
@@ -38,10 +38,10 @@ class EmotionAnalysisModel(nn.Module):
             batch_first=True
         )
         
-        # 어텐션 메커니즘
+        # 어텐션 메커니즘 설정
         self.attention = nn.Sequential(
             nn.Linear(hidden_dim * 2, hidden_dim),
-            nn.LeakyReLU(),  # ReLU 대신 LeakyReLU 사용
+            nn.LeakyReLU(),  # ReLU 대신 LeakyReLU 사용 0 이하 값 기울기 값 적용(* 0.1)
             nn.Linear(hidden_dim, 1),
             nn.Softmax(dim=1)
         )
@@ -49,7 +49,7 @@ class EmotionAnalysisModel(nn.Module):
         # 출력 레이어
         self.dropout = nn.Dropout(0.3)  # 드롭아웃 비율 조정
         self.fc1 = nn.Linear(hidden_dim * 2, hidden_dim)
-        self.leaky_relu = nn.LeakyReLU()  # 활성화 함수 변경
+        self.leaky_relu = nn.LeakyReLU()
         self.batch_norm = nn.BatchNorm1d(hidden_dim)  # 배치 정규화 추가
         self.fc2 = nn.Linear(hidden_dim, output_dim)
         
@@ -111,7 +111,7 @@ def load_initial_training_data():
         ("오랜만에 맛있는 식사를 했네요", 0),
         ("예쁜 카페를 발견해서 기분이 좋아요", 0),
 
-        # 부정적인 문장 (20개로 증가)
+        # 부정적인 문장 (20개)
         ("오늘 정말 최악의 하루였어...", 2),
         ("시험을 망쳐서 너무 속상하다", 2),
         ("중요한 약속에 지각해서 미안해...", 2),
@@ -133,7 +133,7 @@ def load_initial_training_data():
         ("월급이 생각보다 너무 적어서 실망했어요", 2),
         ("팀 프로젝트에서 무임승차하는 동료 때문에 스트레스 받아요", 2),
 
-        # 중립적인 문장 (20개로 증가)
+        # 중립적인 문장 (20개)
         ("오늘 날씨가 흐린것 같아요", 1),
         ("이번 주말에는 집에서 쉴 예정이에요", 1),
         ("오늘 점심은 평소처럼 회사 근처 식당에서 먹었어요", 1),
@@ -173,10 +173,10 @@ class DeepEmotionAnalyzer:
         
         os.makedirs(self.data_dir, exist_ok=True)
         
-        # 하이퍼파라미터 조정
-        self.vocab_size = 8000  # 어휘 크기 증가
-        self.embedding_dim = 200  # 임베딩 차원 증가
-        self.hidden_dim = 128  # 은닉층 차원 증가
+        # 하이퍼파라미터 설정정
+        self.vocab_size = 8000  # 어휘 크기 설정
+        self.embedding_dim = 200  # 임베딩 차원 설정
+        self.hidden_dim = 128  # 은닉층 차원 설정
         self.output_dim = 3
         
         self.okt = Okt()
@@ -279,7 +279,7 @@ class DeepEmotionAnalyzer:
             # 모델을 평가 모드로 설정
             self.model.eval()
             
-            # GPU 사용 가능한 경우 GPU로 이동
+            # GPU 사용 가능한 경우 GPU로 이동 //CUDA 설치 안 됐을 경우 CPU로로
             if torch.cuda.is_available():
                 self.model = self.model.cuda()
                 print("GPU를 사용합니다.")
@@ -288,7 +288,7 @@ class DeepEmotionAnalyzer:
                 
         except Exception as e:
             print(f"모델 초기화 중 오류 발생: {e}")
-            # 오류 발생 시 새 모델 생성
+            # 기존 파일 없을 시 새 모델 생성
             self.model = EmotionAnalysisModel(
                 self.vocab_size,
                 self.embedding_dim,
@@ -338,7 +338,7 @@ class DeepEmotionAnalyzer:
             idx = self.word_to_idx.get(morph, self.word_to_idx['<UNK>'])
             weighted_morphs.extend([idx] * int(weight))
         
-        # 동적 패딩
+        # 동적 패딩 적용
         max_length = 100
         if len(weighted_morphs) < max_length:
             weighted_morphs = weighted_morphs + [0] * (max_length - len(weighted_morphs))
@@ -348,7 +348,7 @@ class DeepEmotionAnalyzer:
         return torch.tensor(weighted_morphs).unsqueeze(0)
 
     def train_model(self):
-        """향상된 모델 학습"""
+        """입력된 모델 학습"""
         if len(self.train_data) < 5:
             self.status_var.set("최소 5개의 학습 예제가 필요합니다")
             return
@@ -405,7 +405,7 @@ class DeepEmotionAnalyzer:
             # 학습
             best_loss = float('inf')
             patience = 0
-            max_patience = 15  # Early stopping 인내심 증가
+            max_patience = 15  # Early stopping 설정
             
             for epoch in range(150):  # 에폭 수 증가
                 self.model.train()
@@ -526,7 +526,7 @@ class DeepEmotionAnalyzer:
         except Exception as e:
             return f"감정 분석 중 오류가 발생했습니다: {str(e)}"
 
-    # GUI 관련 메서드들은 이전과 동일하게 유지
+    # GUI 관련 메서드
     def setup_gui(self):
         """GUI 설정"""
         self.window = tk.Tk()
