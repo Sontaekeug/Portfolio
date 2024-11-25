@@ -16,7 +16,6 @@ warnings.filterwarnings('ignore')
 
 # 한글 폰트 설정
 plt.rcParams['font.family'] = 'Malgun Gothic'  # 윈도우의 경우
-# plt.rcParams['font.family'] = 'AppleGothic'  # macOS의 경우
 
 # 주요 한국 주식 종목 매핑
 STOCK_MAPPING = {
