@@ -416,7 +416,7 @@ class RewardSystem:
         self.last_lines_cleared = lines_cleared
         return reward
 
-# 메모리 관리 클래스 추가
+# 메모리 관리 클래스
 class MemoryManager:
     def __init__(self, config):
         self.config = config
@@ -560,7 +560,7 @@ class DQNAgent:
         try:
             model_path = os.path.join(
                 self.config.MODEL_DIR,
-                f"tetris_model_ep{episode}.keras"  # .h5 대신 .keras 사용
+                f"tetris_model_ep{episode}.keras"
             )
             self.model.save(model_path)
             
@@ -757,7 +757,7 @@ def main():
                         pygame.quit()
                         return
             
-            # 에피소드 결과 로깅
+            # 에피소드 결과 기록
             is_best = training_manager.log_episode(episode, total_reward, 
                                                  lines_cleared, steps)
             
