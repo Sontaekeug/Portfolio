@@ -34,9 +34,9 @@ class PetCNN(nn.Module):
 
 class PetDetector:
     def __init__(self):
-        self.yolo_model = torch.hub.load('ultralytics/yolov5', 'yolov5m')  # 더 큰 모델 사용
-        self.yolo_model.classes = [15, 16]  # COCO dataset: cat(15), dog(16)
-        self.yolo_model.conf = 0.4  # 적절한 신뢰도 임계값
+        self.yolo_model = torch.hub.load('ultralytics/yolov5', 'yolov5m')  # yolo version 5. middle 모델 사용, small 모델로 인식 제한
+        self.yolo_model.classes = [15, 16]  # COCO dataset 사용: cat(15), dog(16) / 데이터 셋에 사전 정의된 값
+        self.yolo_model.conf = 0.4  # 신뢰도 임계값 설정정
         
         self.cnn_model = PetCNN()
         if Path('pet_classifier.pth').exists():
@@ -71,7 +71,7 @@ class PetDetector:
                     x1, x2 = max(0, x1), min(width, x2)
                     y1, y2 = max(0, y1), min(height, y2)
                     
-                    if x2 > x1 and y2 > y1:  # 유효한 영역인지 확인
+                    if x2 > x1 and y2 > y1:  # 유효 영역 여부 확인
                         cropped_img = img[y1:y2, x1:x2].copy()  # 이미지 복사본 사용
                         if cropped_img.size > 0:
                             try:
@@ -100,7 +100,7 @@ class PetDetector:
             
             return detections, img
         except Exception as e:
-            print(f"이미지 처리 중 상세 오류: {str(e)}")
+            print(f"이미지 처리 중 오류: {str(e)}")
             raise
 
     def combine_predictions(self, yolo_class, cnn_class, yolo_conf, cnn_conf):
@@ -134,11 +134,11 @@ class PetDetector:
             outputs = self.cnn_model(img_tensor)
             probabilities = F.softmax(outputs, dim=1)[0]
             
-            # 더 엄격한 분류 기준 적용
+            # 분류 기준 적용
             cat_prob = probabilities[0].item()
             dog_prob = probabilities[1].item()
             
-            if abs(cat_prob - dog_prob) < 0.2:  # 확실하지 않은 경우
+            if abs(cat_prob - dog_prob) < 0.2:  # 신뢰도가 낮을 경우우
                 return {
                     'class': 'unknown',
                     'confidence': max(cat_prob, dog_prob)
@@ -240,7 +240,7 @@ class PetDetectorGUI:
                 self.processed_image = processed_img
             
         except Exception as e:
-            print(f"에러 상세 정보: {str(e)}")  # 콘솔에 에러 출력
+            print(f"에러 상세 정보: {str(e)}")
             messagebox.showerror("오류", f"이미지 처리 중 오류가 발생했습니다:\n{str(e)}")
     
     def save_image(self):
