@@ -1,14 +1,14 @@
-import pygame
-import random
-import sys
-import time
-import json
-import os
-from tkinter import *
-from tkinter import simpledialog
-import firebase_admin
-from firebase_admin import credentials, db, auth
-import requests
+import pygame  # 게임 개발을 위한 라이브러리
+import random  # 랜덤한 데이터 생성
+import sys  # 시스템 작업 (종료 등)
+import time  # 시간 측정 및 처리
+import json  # JSON 파일 읽기/쓰기
+import os  # 파일 경로 및 시스템 작업
+from tkinter import *  # GUI 구성 (랭킹 입력창)
+from tkinter import simpledialog  # 간단한 입력 다이얼로그
+import firebase_admin  # Firebase 연결 라이브러리
+from firebase_admin import credentials, db, auth  # Firebase 인증, 데이터베이스
+import requests  # HTTP 요청 처리
 
 # Firebase Admin SDK 초기화
 # 서비스 계정 키 파일 경로 지정
@@ -93,8 +93,8 @@ MENU_HOVER = (100, 100, 100)
 pygame.font.init()
 try:
     game_font = pygame.font.SysFont('malgun gothic', 36)  # 기본 폰트
-    small_font = pygame.font.SysFont('malgun gothic', 18)  # 작은 폰트 (1/2 크기)
-    time_font = pygame.font.SysFont('malgun gothic', 29)  # 시간 폰트 (80% 크기)
+    small_font = pygame.font.SysFont('malgun gothic', 18)  # 작은 폰트
+    time_font = pygame.font.SysFont('malgun gothic', 29)  # 시간 폰트
 except:
     game_font = pygame.font.SysFont('arial', 36)
     small_font = pygame.font.SysFont('arial', 18)
