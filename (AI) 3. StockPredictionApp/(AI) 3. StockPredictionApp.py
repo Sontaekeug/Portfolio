@@ -1,4 +1,3 @@
-# 필수 라이브러리 임포트
 import tkinter as tk  # GUI 구성용
 from tkinter import ttk, messagebox, font  # Tkinter의 확장 모듈
 import pandas as pd  # 데이터 프레임 처리
