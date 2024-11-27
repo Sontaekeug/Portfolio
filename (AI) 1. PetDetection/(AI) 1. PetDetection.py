@@ -1,4 +1,3 @@
-# 필요한 라이브러리 임포트
 import sys
 import os
 import torch  # PyTorch 라이브러리: 딥러닝 모델 구현 및 실행
